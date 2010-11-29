@@ -6,7 +6,7 @@ use parent qw(Exporter Digest::base);
 
 use MIME::Base64 ();
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 $VERSION = eval $VERSION;
 
 eval {
@@ -24,33 +24,6 @@ our @EXPORT_OK = qw(
     fugue_384 fugue_384_hex fugue_384_base64
     fugue_512 fugue_512_hex fugue_512_base64
 );
-
-# TODO: convert to C.
-sub fugue_224_hex  { unpack 'H*', fugue_224(@_) }
-sub fugue_256_hex  { unpack 'H*', fugue_256(@_) }
-sub fugue_384_hex  { unpack 'H*', fugue_384(@_) }
-sub fugue_512_hex  { unpack 'H*', fugue_512(@_) }
-
-sub fugue_224_base64 {
-    my $b64 = MIME::Base64::encode(fugue_224(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub fugue_256_base64 {
-    my $b64 = MIME::Base64::encode(fugue_256(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub fugue_384_base64 {
-    my $b64 = MIME::Base64::encode(fugue_384(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
-sub fugue_512_base64 {
-    my $b64 = MIME::Base64::encode(fugue_512(@_), '');
-    $b64 =~ s/=+$//g;
-    return $b64;
-}
 
 sub add_bits {
     my ($self, $data, $bits) = @_;
@@ -75,8 +48,8 @@ Digest::Fugue - Perl interface to the Fugue digest algorithm
     use Digest::Fugue qw(fugue_256 fugue_256_hex fugue_256_base64);
 
     $digest = fugue_256($data);
-    $digest = fugue_hex_256($data);
-    $digest = fugue_base64_256($data);
+    $digest = fugue_256_hex($data);
+    $digest = fugue_256_base64($data);
 
     # Object-oriented interface
     use Digest::Fugue;
@@ -156,6 +129,8 @@ Returns the algorithm used by the object.
 =head1 SEE ALSO
 
 L<Digest>
+
+L<Task::Digest>
 
 L<http://domino.research.ibm.com/comm/research_projects.nsf/pages/fugue.index.html>
 
